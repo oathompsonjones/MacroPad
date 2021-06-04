@@ -11,14 +11,18 @@
 using namespace pimoroni;
 extern PicoRGBKeypad keypad;
 
+struct DiscordStates
+{
+    bool isMuted;
+    bool isDeafened;
+    bool wasMutedBeforeDeafened;
+};
+
 class MacroPad
 {
 private:
     int mode = 0;
-    bool states[2] = {
-        false, // Discord Toggle Mute
-        false, // Discord Toggle Deafen
-    };
+    DiscordStates discordStates = {false, false, false};
     void calcXY(int i, int &x, int &y)
     {
         x = i % keypad.WIDTH;
@@ -98,7 +102,8 @@ private:
             tud_hid_keyboard_report(REPORT_ID_KEYBOARD, ModifierKeys, CodeToUse);
         }
     }
-    void flashButton(int button) {
+    void flashButton(int button)
+    {
         keypad.illuminate(button, 255, 0, 0);
         keypad.update();
         sleep_ms(250);
@@ -111,21 +116,18 @@ public:
         {
         case 0:
             // Discord Toggle Mute
-            if (states[0])
+            if (discordStates.isMuted)
                 keypad.illuminate(0, 255, 0, 0);
             else
                 keypad.illuminate(0, 0, 255, 0);
             // Section Screenshot
-            if (states[2])
-                keypad.illuminate(1, 255, 0, 0);
-            else
-                keypad.illuminate(1, 0, 255, 0);
+            keypad.illuminate(1, 0, 255, 0);
             // Not Set
             keypad.illuminate(2, 0, 0, 255);
             // Not Set
             keypad.illuminate(3, 0, 0, 255);
             // Discord Toggle Deafen
-            if (states[1])
+            if (discordStates.isDeafened)
                 keypad.illuminate(4, 255, 0, 0);
             else
                 keypad.illuminate(4, 0, 255, 0);
@@ -267,9 +269,9 @@ public:
             case 0:
                 // Discord Toggle Mute
                 pressKey(HID_KEY_M, KEYBOARD_MODIFIER_LEFTCTRL + KEYBOARD_MODIFIER_LEFTSHIFT + KEYBOARD_MODIFIER_LEFTALT + KEYBOARD_MODIFIER_LEFTGUI);
-                states[0] = !states[0];
-                if (!states[0])
-                    states[1] = false;
+                discordStates.isDeafened = false;
+                discordStates.isMuted = !discordStates.isMuted;
+                discordStates.wasMutedBeforeDeafened = discordStates.isMuted;
                 break;
             case 1:
                 // Section Screenshot
@@ -285,9 +287,8 @@ public:
             case 4:
                 // Discord Toggle Deafen
                 pressKey(HID_KEY_D, KEYBOARD_MODIFIER_LEFTCTRL + KEYBOARD_MODIFIER_LEFTSHIFT + KEYBOARD_MODIFIER_LEFTALT + KEYBOARD_MODIFIER_LEFTGUI);
-                states[1] = !states[1];
-                if (states[1])
-                    states[0] = true;
+                discordStates.isDeafened = !discordStates.isDeafened;
+                discordStates.isMuted = discordStates.isDeafened || discordStates.wasMutedBeforeDeafened;
                 break;
             case 5:
                 // Full Screen Screenshot
