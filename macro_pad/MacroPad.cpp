@@ -121,7 +121,7 @@ public:
             else
                 keypad.illuminate(0, 0, 255, 0);
             // Section Screenshot
-            keypad.illuminate(1, 0, 255, 0);
+            keypad.illuminate(1, 0xff, 0x8b, 0x2b);
             // Not Set
             keypad.illuminate(2, 0, 0, 255);
             // Not Set
@@ -132,15 +132,15 @@ public:
             else
                 keypad.illuminate(4, 0, 255, 0);
             // Full Screen Screenshot
-            keypad.illuminate(5, 0, 255, 0);
+            keypad.illuminate(5, 0xff, 0x8b, 0x2b);
             // Not Set
             keypad.illuminate(6, 0, 0, 255);
             // Not Set
             keypad.illuminate(7, 0, 0, 255);
-            // Not Set
-            keypad.illuminate(8, 0, 0, 255);
+            // Escape
+            keypad.illuminate(8, 0xff, 0x8b, 0x2b);
             // Touch Bar Screenshot
-            keypad.illuminate(9, 0, 255, 0);
+            keypad.illuminate(9, 0xff, 0x8b, 0x2b);
             // Not Set
             keypad.illuminate(10, 0, 0, 255);
             // Not Set
@@ -302,7 +302,9 @@ public:
                 // Not Set
                 break;
             case 8:
-                // Not Set
+                // Escape key
+                pressKey(HID_KEY_ESCAPE, 0);
+                flashButton(8);
                 break;
             case 9:
                 // Touch Bar Screenshot
