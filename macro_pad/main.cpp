@@ -52,7 +52,10 @@ int main()
                         macropad.buttonDown(button);
                 }
                 else
+                {
                     tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
+                    tud_hid_report(REPORT_ID_CONSUMER_CONTROL, 0, 2);
+                }
             }
         }
 
