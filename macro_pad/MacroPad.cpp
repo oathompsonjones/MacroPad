@@ -98,6 +98,11 @@ private:
             tud_hid_keyboard_report(REPORT_ID_KEYBOARD, ModifierKeys, CodeToUse);
         }
     }
+    void flashButton(int button) {
+        keypad.illuminate(button, 255, 0, 0);
+        keypad.update();
+        sleep_ms(250);
+    }
 
 public:
     void resetColours()
@@ -269,9 +274,7 @@ public:
             case 1:
                 // Section Screenshot
                 pressKey(HID_KEY_4, KEYBOARD_MODIFIER_LEFTSHIFT + KEYBOARD_MODIFIER_LEFTGUI);
-                keypad.illuminate(1, 255, 0, 0);
-                keypad.update();
-                sleep_ms(100);
+                flashButton(1);
                 break;
             case 2:
                 // Not Set
@@ -289,9 +292,7 @@ public:
             case 5:
                 // Full Screen Screenshot
                 pressKey(HID_KEY_3, KEYBOARD_MODIFIER_LEFTSHIFT + KEYBOARD_MODIFIER_LEFTGUI);
-                keypad.illuminate(5, 255, 0, 0);
-                keypad.update();
-                sleep_ms(100);
+                flashButton(5);
                 break;
             case 6:
                 // Not Set
@@ -305,9 +306,7 @@ public:
             case 9:
                 // Touch Bar Screenshot
                 pressKey(HID_KEY_5, KEYBOARD_MODIFIER_LEFTSHIFT + KEYBOARD_MODIFIER_LEFTGUI);
-                keypad.illuminate(9, 255, 0, 0);
-                keypad.update();
-                sleep_ms(100);
+                flashButton(9);
                 break;
             case 10:
                 // Not Set
