@@ -18,8 +18,10 @@ This will generate a bunch of files, you will want to drag the `macro_pad.uf2` f
 
 ### Products
 Buy a Raspberry Pi Pico [here](https://thepihut.com/products/raspberry-pi-pico).
+
 Buy the 4x4 RGB Keypad [here](https://shop.pimoroni.com/products/pico-rgb-keypad-base).
 
 ### Libraries
 [Pico SDK (includes TinyUSB)](https://github.com/raspberrypi/pico-sdk)
+
 [Pimoroni Pico](https://github.com/pimoroni/pimoroni-pico/)
